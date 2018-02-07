@@ -22,7 +22,7 @@ class Timeline extends Component {
   }
 }
 
-const getUsers = gql`
+const getPhotos = gql`
 {
   allPhotos {
     id
@@ -39,19 +39,10 @@ const getUsers = gql`
 // #todo: \/ depois simplificar código abaixo.
 
 // Create our enhancer function.
-const withTodoAppQuery = graphql(getUsers);
+const withTodoAppQuery = graphql(getPhotos);
 
 // Enhance our component.
 const TodoAppWithData = withTodoAppQuery(Timeline);
 
 // Export the enhanced component.
 export default TodoAppWithData;
-
-
-/*
-export default () => (
-  <div>
-    {console.log("about")}
-    <p>This is the rai vitor page</p>
-  </div>
-)*/
