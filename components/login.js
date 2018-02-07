@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -9,23 +9,20 @@ class Login extends Component {
 
   logar(e) {
     event.preventDefault();
-    console.log('logar')
-  }
-
-  addTodo = () => {
+    console.log(this.props)
     this.props.validateUser({
       variables: { username: this.login },
       update: (proxy, { data: { validateUser } }) => {
         this.props.data.refetch();
       },
     })
-    this.setState({ todoText: '' })
-  };
-
+    
+  }
 
   render() {
+    console.log(this.props)
     return (
-      <Layout>
+      <Fragment>
         <h1>Login</h1>
         <div className="login-box">
           <h1 className="header-logo">Instagram</h1>
@@ -36,7 +33,7 @@ class Login extends Component {
             <input type="submit" value="login" />
           </form>
         </div>
-      </Layout>
+      </Fragment>
     )
   }
 }
@@ -53,7 +50,12 @@ const validateUser = gql`
 // #todo: \/ depois simplificar código abaixo.
 
 // Create our enhancer function.
-const withTodoAppQuery = graphql(validateUser);
+const withTodoAppQuery = graphql(validateUser, {
+  options: {
+    variables: {
+      username: this.login,
+    }
+  }});
 
 // Enhance our component.
 const TodoAppWithData = withTodoAppQuery(Login);
