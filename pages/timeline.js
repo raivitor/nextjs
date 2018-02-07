@@ -2,8 +2,6 @@ import Layout from '../components/header.js'
 import { ApolloProvider } from 'react-apollo';
 import apolloClient from '../lib/apollo'
 import Timeline from '../components/timeline.js'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
 
 export default () => (
 
@@ -20,7 +18,6 @@ export default () => (
     background: #fafafa;
     position: relative;
   }
-  
   
   .container {
     padding: 0 10%;
