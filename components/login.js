@@ -2,21 +2,13 @@ import React, { Component, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
-class Login extends Component {
-  state = {
-    msg: ''
-  }
+class LoginWithoutData extends Component {
 
   logar(e) {
     event.preventDefault();
-    console.log(this.props)
-    this.props.validateUser({
-      variables: { username: this.login },
-      update: (proxy, { data: { validateUser } }) => {
-        this.props.data.refetch();
-      },
-    })
-    
+    this.props.data.refetch({
+      username: this.login.value
+    }).then(data => console.log(data))
   }
 
   render() {
@@ -26,11 +18,10 @@ class Login extends Component {
         <h1>Login</h1>
         <div className="login-box">
           <h1 className="header-logo">Instagram</h1>
-          <span>{this.state.msg}</span>
           <form onSubmit={this.logar.bind(this)}>
-            <input type="text" ref={(input) => this.login = input} />
-            <input type="password" ref={(input) => this.senha = input} />
-            <input type="submit" value="login" />
+            <input type="text" ref={(input) => this.login = input} placeholder="login" />
+            <input type="password" ref={(input) => this.senha = input} placeholder="password" />
+            <input type="button" value="login" onClick={this.logar.bind(this)} />
           </form>
         </div>
       </Fragment>
@@ -38,7 +29,7 @@ class Login extends Component {
   }
 }
 
-const validateUser = gql`
+export const LOGIN_QUERY = gql`
   query ($username: String!) {
     User(username: $username) {
       id
@@ -50,15 +41,14 @@ const validateUser = gql`
 // #todo: \/ depois simplificar código abaixo.
 
 // Create our enhancer function.
-const withTodoAppQuery = graphql(validateUser, {
-  options: {
-    variables: {
-      username: this.login,
-    }
-  }});
+export const withValidateQuery = graphql(LOGIN_QUERY, {
+  options: (props) => {
+    return { variables: { username: "" } }
+  }
+});
 
 // Enhance our component.
-const TodoAppWithData = withTodoAppQuery(Login);
+const Login = withValidateQuery(LoginWithoutData);
 
 // Export the enhanced component.
-export default TodoAppWithData;
+export default Login;
