@@ -1,5 +1,5 @@
-import Layout from '../components/header.js'
-import Login from '../components/login.js'
+import Layout from '../components/Header.js'
+import Login from '../container/login.js'
 import { ApolloProvider } from 'react-apollo';
 import apolloClient from '../lib/apollo'
 
